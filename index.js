@@ -1,10 +1,11 @@
 import express from 'express';
 import mongoose from 'mongoose';
 
-import { registerValidator } from './validations/auth.js';
+import { registerValidator, loginValidator } from './validations.js';
 
 import checkAuth from './middleware/checkAuth.js';
 import * as UserController from './controllers/UserController.js';
+import * as PersonController from './controllers/PersonController.js';
 
 mongoose
   .connect(
@@ -19,8 +20,13 @@ const app = express();
 
 app.use(express.json());
 
-app.post('/auth/login', UserController.login);
+app.post('/auth/login', loginValidator, UserController.login);
 app.post('/auth/register', registerValidator, UserController.register);
-app.get('/auth/me', checkAuth, UserController.getMe);
+
+app.get('/account', checkAuth, UserController.getMe);
+app.patch('/account', checkAuth, UserController.update);
+
+app.get('/people', checkAuth, PersonController.getAll);
+app.get('/people/:id', checkAuth, PersonController.getOne);
 
 app.listen(3000, () => console.log('Server OK'));

@@ -98,3 +98,25 @@ export const getMe = async (req, res) => {
     });
   }
 };
+
+export const update = async (req, res) => {
+  try {
+    const user = await UserModel.findOne(req.userId);
+
+    await UserModel.updateOne({
+      _id: user,
+    }, {
+      fullName: req.body.fullName,
+      password: req.body.password,
+      avatarUrl: req.body.avatarUrl,
+    });
+
+    res.json({ success: true });
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({
+      message: 'Не удалось обновить аккаунт',
+    });
+  }
+};
