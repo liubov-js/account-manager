@@ -5,7 +5,9 @@ import mongoose from 'mongoose';
 import { validationResult } from 'express-validator';
 
 import { registerValidator } from './validations/auth.js';
-import UserSchema from './models/User.js';
+
+import UserModel from './models/User.js';
+import checkAuth from "./middleware/checkAuth.js";
 
 mongoose
   .connect(
@@ -22,7 +24,7 @@ app.use(express.json());
 
 app.post('/auth/login', async (req, res) => {
   try {
-    const user = await UserSchema.findOne({ email: req.body.email });
+    const user = await UserModel.findOne({ email: req.body.email });
 
     if (!user) {
       return res.status(404).json({
@@ -66,7 +68,7 @@ app.post('/auth/register', registerValidator, async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
-    const doc = new UserSchema({
+    const doc = new UserModel({
       fullName: req.body.fullName,
       email: req.body.email,
       passwordHash: hash,
@@ -89,6 +91,28 @@ app.post('/auth/register', registerValidator, async (req, res) => {
 
     res.status(500).json({
       message: 'Не удалось зарегистрироваться',
+    });
+  }
+});
+
+app.get('/auth/me', checkAuth, async (req, res) => {
+  try {
+    const user = await UserModel.findOne(req.userId);
+
+    if (!user) {
+      return res.status(404).json({
+        message: 'Пользователь не найден',
+      });
+    }
+
+    const { passwordHash, ...userData } = user._doc;
+
+    res.json(userData);
+  } catch (err) {
+    console.log(err);
+
+    res.status(500).json({
+      message: 'Нет доступа',
     });
   }
 });
