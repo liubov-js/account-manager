@@ -4,10 +4,8 @@ import multer from 'multer';
 
 import { registerValidator, loginValidator, updateValidator } from './validations.js';
 
-import checkAuth from './middleware/checkAuth.js';
-import handleValidationErrors from './middleware/handleValidationErrors.js';
-import * as UserController from './controllers/UserController.js';
-import * as PersonController from './controllers/PersonController.js';
+import { checkAuth, handleValidationErrors } from './middleware/index.js';
+import { AccountController, ProfileController, UserController } from './controllers/index.js';
 
 mongoose
   .connect(
@@ -43,10 +41,10 @@ app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
   });
 });
 
-app.get('/account', checkAuth, UserController.getMe);
-app.patch('/account', checkAuth, updateValidator, handleValidationErrors, UserController.update);
+app.get('/account', checkAuth, ProfileController.getMe);
+app.patch('/account', checkAuth, updateValidator, handleValidationErrors, ProfileController.update);
 
-app.get('/people', checkAuth, PersonController.getAll);
-app.get('/people/:id', checkAuth, PersonController.getOne);
+app.get('/people', checkAuth, AccountController.getAll);
+app.get('/people/:id', checkAuth, AccountController.getOne);
 
 app.listen(3000, () => console.log('Server OK'));

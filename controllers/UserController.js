@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import UserModel from '../models/User.js';
+import AccountModel from '../models/Account.js';
 
 export const register = async (req, res) => {
   try {
@@ -9,7 +9,7 @@ export const register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
-    const doc = new UserModel({
+    const doc = new AccountModel({
       fullName: req.body.fullName,
       email: req.body.email,
       passwordHash: hash,
@@ -38,7 +38,7 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const user = await UserModel.findOne({ email: req.body.email });
+    const user = await AccountModel.findOne({ email: req.body.email });
 
     if (!user) {
       return res.status(404).json({
@@ -66,50 +66,6 @@ export const login = async (req, res) => {
 
     res.status(500).json({
       message: 'Не удалось авторизоваться',
-    });
-  }
-};
-
-export const getMe = async (req, res) => {
-  try {
-    const user = await UserModel.findOne(req.userId);
-
-    if (!user) {
-      return res.status(404).json({
-        message: 'Пользователь не найден',
-      });
-    }
-
-    const { passwordHash, ...userData } = user._doc;
-
-    res.json(userData);
-  } catch (err) {
-    console.log(err);
-
-    res.status(500).json({
-      message: 'Нет доступа',
-    });
-  }
-};
-
-export const update = async (req, res) => {
-  try {
-    const user = await UserModel.findOne(req.userId);
-
-    await UserModel.updateOne({
-      _id: user,
-    }, {
-      fullName: req.body.fullName,
-      password: req.body.password,
-      avatarUrl: req.body.avatarUrl,
-    });
-
-    res.json({ success: true });
-  } catch (err) {
-    console.log(err);
-
-    res.status(500).json({
-      message: 'Не удалось обновить аккаунт',
     });
   }
 };

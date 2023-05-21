@@ -1,10 +1,10 @@
-import UserModel from '../models/User.js';
+import AccountModel from '../models/Account.js';
 
 export const getAll = async (req, res) => {
   try {
-    const people = await UserModel.find();
+    const people = await AccountModel.find();
 
-    res.json(people);
+    res.json(people.filter((person) => person._id.toString() !== res.userId));
   } catch (err) {
     console.log(err);
 
@@ -17,7 +17,7 @@ export const getAll = async (req, res) => {
 export const getOne = async (req, res) => {
   try {
     const personId = req.params.id;
-    const person = await UserModel.findById(personId);
+    const person = await AccountModel.findById(personId);
 
     res.json(person);
   } catch (err) {
