@@ -28,7 +28,7 @@ export const PeopleList = () => {
             dateOfBirth={person.dateOfBirth}
           />
         )) : (
-          <div className='Spinner'>
+          <div className='CenterDiv'>
             <CircularProgress />
           </div>
         )}
