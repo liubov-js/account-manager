@@ -9,6 +9,7 @@ import axios from '../axios';
 import { getAge, handleChangePhoto, headers } from '../utils';
 import CircularProgress from '@mui/material/CircularProgress';
 import { BACKEND_URL } from '../constants';
+import './Pages.scss';
 
 export const Profile = () => {
   const inputRef = useRef(null);
@@ -48,8 +49,8 @@ export const Profile = () => {
 
   return (
     info ? (
-      <Paper classes='LoginContainer'>
-        <Typography classes='Title' variant="h5">
+      <Paper className='LoginContainer'>
+        <Typography className='Title' variant="h5">
           Profile
         </Typography>
         <div className='Avatar'>

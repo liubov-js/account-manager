@@ -26,7 +26,7 @@ export const Login = () => {
   };
 
   return (
-    <Paper classes='LoginContainer'>
+    <Paper className='LoginContainer'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
           className='Field'

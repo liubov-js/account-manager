@@ -13,6 +13,7 @@ import axios from '../axios';
 import { MenuItem } from '@mui/material';
 import { handleChangePhoto } from '../utils';
 import { BACKEND_URL } from '../constants';
+// import './Pages.scss';
 
 export const Registration = () => {
   const [imageUrl, setImageUrl] = useState('');
@@ -50,8 +51,8 @@ export const Registration = () => {
   };
 
   return (
-    <Paper classes='LoginContainer'>
-      <Typography classes='Title' variant='h5'>
+    <Paper className='LoginContainer'>
+      <Typography className='Title' variant='h5'>
         Create new account
       </Typography>
       <div className='Avatar'>

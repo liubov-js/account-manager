@@ -4,9 +4,14 @@
 
 .LoginContainer {
   width: 400px;
-  padding: 50px;
+  padding: 20px;
   border: 1px solid #dedede;
-  margin: 50px auto;
+  margin: auto;
+}
+
+.PeopleListContainer {
+  max-width: 500px;
+  margin: auto;
 }
 
 .Field {

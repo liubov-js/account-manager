@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Grid from '@mui/material/Grid';
 import axios from '../axios';
 import { Person } from '../components/Person';
 import { CircularProgress } from '@mui/material';
@@ -18,21 +17,19 @@ export const PeopleList = () => {
   }, []);
 
   return (
-    <Grid container spacing={4} sx={{ justifyContent: 'center' }}>
-      <Grid xs={8} item>
-        {people ? people.map((person) => (
-          <Person
-            key={person._id}
-            fullName={person.fullName}
-            imageUrl={`${BACKEND_URL}${person.avatarUrl}` || ''}
-            dateOfBirth={person.dateOfBirth}
-          />
-        )) : (
-          <div className='CenterDiv'>
-            <CircularProgress />
-          </div>
-        )}
-      </Grid>
-    </Grid>
+    <div className='PeopleListContainer'>
+      {people ? people.map((person) => (
+        <Person
+          key={person._id}
+          fullName={person.fullName}
+          imageUrl={`${BACKEND_URL}${person.avatarUrl}` || ''}
+          dateOfBirth={person.dateOfBirth}
+        />
+      )) : (
+        <div className='CenterDiv'>
+          <CircularProgress />
+        </div>
+      )}
+    </div>
   );
 };
