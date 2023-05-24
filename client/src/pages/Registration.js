@@ -12,8 +12,7 @@ import { Controller, useForm } from 'react-hook-form';
 import axios from '../axios';
 import { MenuItem } from '@mui/material';
 import { handleChangePhoto } from '../utils';
-import { BACKEND_URL } from '../constants';
-// import './Pages.scss';
+import config from '../config.json';
 
 export const Registration = () => {
   const [imageUrl, setImageUrl] = useState('');
@@ -58,7 +57,7 @@ export const Registration = () => {
       <div className='Avatar'>
         {imageUrl ? (
           <>
-            <Avatar sx={{width: 100, height: 100}} src={`${BACKEND_URL}${imageUrl}`}/>
+            <Avatar sx={{width: 100, height: 100}} src={`${config.BACKEND_URL}${imageUrl}`}/>
             <Button onClick={() => setImageUrl('')} color='error' className='CenterDiv'>
               Delete
             </Button>

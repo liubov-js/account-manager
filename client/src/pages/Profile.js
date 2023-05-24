@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import axios from '../axios';
 import { getAge, handleChangePhoto, headers } from '../utils';
 import CircularProgress from '@mui/material/CircularProgress';
-import { BACKEND_URL } from '../constants';
+import config from '../config.json';
 import './Pages.scss';
 
 export const Profile = () => {
@@ -56,7 +56,7 @@ export const Profile = () => {
         <div className='Avatar'>
           {avatarUrl ? (
               <>
-                <Avatar sx={{width: 100, height: 100}} src={`${BACKEND_URL}${avatarUrl}`}/>
+                <Avatar sx={{width: 100, height: 100}} src={`${config.BACKEND_URL}${avatarUrl}`}/>
                 <Button onClick={() => setAvatarUrl('')} color="error" className='CenterDiv'>
                   Delete
                 </Button>

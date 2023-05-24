@@ -3,7 +3,7 @@ import axios from '../axios';
 import { Person } from '../components/Person';
 import { CircularProgress } from '@mui/material';
 import { headers } from '../utils';
-import { BACKEND_URL } from '../constants';
+import config from '../config.json';
 import './Pages.scss';
 
 export const PeopleList = () => {
@@ -22,7 +22,7 @@ export const PeopleList = () => {
         <Person
           key={person._id}
           fullName={person.fullName}
-          imageUrl={`${BACKEND_URL}${person.avatarUrl}` || ''}
+          imageUrl={`${config.BACKEND_URL}${person.avatarUrl}` || ''}
           dateOfBirth={person.dateOfBirth}
         />
       )) : (

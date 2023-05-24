@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { BACKEND_URL } from './constants';
+import config from 'config.json';
 
 const instance = axios.create({
-  baseURL: BACKEND_URL,
+  baseURL: config.BACKEND_URL,
 });
 
 export default instance;
