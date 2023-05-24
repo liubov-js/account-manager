@@ -1,0 +1,36 @@
+.HomeHeader {
+  color: #4361ee;
+}
+
+.LoginContainer {
+  width: 400px;
+  padding: 20px;
+  border: 1px solid #dedede;
+  margin: auto;
+}
+
+.PeopleListContainer {
+  max-width: 500px;
+  margin: auto;
+}
+
+.Field {
+  margin-bottom: 20px !important;
+}
+
+.Title {
+  text-align: center !important;
+  font-weight: bold !important;
+  margin-bottom: 30px !important;
+}
+
+.Avatar {
+  display: grid;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.CenterDiv {
+  justify-content: center;
+  display: grid;
+}
