@@ -17,7 +17,7 @@ export const handleChangePhoto = async (event, setImageUrl) => {
     const file = event.target.files[0];
     formData.append('image', file);
 
-    const {data} = await axios.post('/upload', formData);
+    const { data } = await axios.post('/upload', formData);
     setImageUrl(data.url);
   } catch (err) {
     console.log(err);

@@ -22,7 +22,7 @@ export const Login = () => {
         localStorage.setItem('token', result.data.token);
         window.location.href = '/people';
       })
-      .catch(err => console.log(err));
+      .catch(err => alert(err.response.data.message));
   };
 
   return (

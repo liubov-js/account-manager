@@ -38,15 +38,15 @@ export const Registration = () => {
       : '0' + (monthOfBirth + 1)}-${dayOfBirth > 9 
       ? dayOfBirth 
       : '0' + dayOfBirth}`;
-    values.avatarUrl = imageUrl
+    values.avatarUrl = imageUrl;
 
     axios
       .post('/auth/register', values)
       .then(result => {
-        localStorage.setItem('token', result.data.token)
+        localStorage.setItem('token', result.data.token);
         window.location.href = '/people';
       })
-      .catch(err => console.log(err));
+      .catch(err => alert(err.response.data.message));
   };
 
   return (
