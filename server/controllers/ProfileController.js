@@ -1,12 +1,12 @@
-import AccountModel from "../models/Account.js";
+import AccountModel from '../models/Account.js';
 
 export const getMe = async (req, res) => {
   try {
-    const user = await AccountModel.findOne(req.userId);
+    const user = await AccountModel.findOne({ _id: res.userId });
 
     if (!user) {
       return res.status(404).json({
-        message: 'Пользователь не найден',
+        message: 'User is not found',
       });
     }
 
@@ -17,14 +17,14 @@ export const getMe = async (req, res) => {
     console.log(err);
 
     res.status(500).json({
-      message: 'Нет доступа',
+      message: 'No access',
     });
   }
 };
 
 export const update = async (req, res) => {
   try {
-    const user = await AccountModel.findOne(req.userId);
+    const user = await AccountModel.findOne({ _id: res.userId });
 
     await AccountModel.updateOne({
       _id: user,
@@ -39,7 +39,7 @@ export const update = async (req, res) => {
     console.log(err);
 
     res.status(500).json({
-      message: 'Не удалось обновить аккаунт',
+      message: 'Failed to update account',
     });
   }
 };

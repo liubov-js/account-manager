@@ -5,12 +5,18 @@ import multer from 'multer';
 import { registerValidator, loginValidator, updateValidator } from './validations.js';
 
 import { checkAuth, handleValidationErrors } from './middleware/index.js';
-import { AccountController, ProfileController, UserController } from './controllers/index.js';
+import {
+  AccountController,
+  ProfileController,
+  LoginController,
+  RegisterController,
+} from './controllers/index.js';
+import cors from 'cors';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 mongoose
-  .connect(
-    'mongodb+srv://admin:Passw0rd@cluster0.97atwbz.mongodb.net/account-manager?retryWrites=true&w=majority',
-  )
+  .connect(process.env.MONGO_DB_URL)
   .then(() => {
     console.log('DB ok');
   })
@@ -30,12 +36,13 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.use(express.json());
+app.use(cors());
 app.use('/uploads', express.static('uploads'));
 
-app.post('/auth/login', loginValidator, handleValidationErrors, UserController.login);
-app.post('/auth/register', registerValidator, handleValidationErrors, UserController.register);
+app.post('/auth/login', loginValidator, handleValidationErrors, LoginController);
+app.post('/auth/register', registerValidator, handleValidationErrors, RegisterController);
 
-app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
+app.post('/upload', upload.single('image'), (req, res) => {
   res.json({
     url: `/uploads/${req.file.originalname}`,
   });
@@ -45,6 +52,5 @@ app.get('/account', checkAuth, ProfileController.getMe);
 app.patch('/account', checkAuth, updateValidator, handleValidationErrors, ProfileController.update);
 
 app.get('/people', checkAuth, AccountController.getAll);
-app.get('/people/:id', checkAuth, AccountController.getOne);
 
-app.listen(3000, () => console.log('Server OK'));
+app.listen(process.env.PORT, () => console.log(`Server listening on port ${process.env.PORT}`));

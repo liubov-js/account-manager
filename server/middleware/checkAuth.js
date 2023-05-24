@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
 export default (req, res, next) => {
   const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
@@ -11,12 +11,12 @@ export default (req, res, next) => {
       next();
     } catch (err) {
       return res.status(403).json({
-        message: 'Нет доступа',
+        message: 'No access',
       });
     }
   } else {
     return res.status(403).json({
-      message: 'Нет доступа',
+      message: 'No access',
     });
   }
 };
