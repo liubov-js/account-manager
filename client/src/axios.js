@@ -3,6 +3,9 @@ import config from './config.json';
 
 const instance = axios.create({
   baseURL: config.BACKEND_URL,
+  headers: {
+    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+  },
 });
 
 export default instance;

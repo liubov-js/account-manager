@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from '../axios';
 import { Person } from '../components/Person';
 import { CircularProgress } from '@mui/material';
-import { headers } from '../utils';
 import config from '../config.json';
 import './Pages.scss';
 
@@ -11,7 +10,7 @@ export const PeopleList = () => {
 
   useEffect(() => {
     axios
-      .get('/people', { headers })
+      .get('/people')
       .then(result => setPeople(result.data))
       .catch(err => console.log(err.message));
   }, []);

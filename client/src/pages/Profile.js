@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import { useForm } from 'react-hook-form';
 import axios from '../axios';
-import { getAge, handleChangePhoto, headers } from '../utils';
+import { getAge, handleChangePhoto } from '../utils';
 import CircularProgress from '@mui/material/CircularProgress';
 import config from '../config.json';
 import './Pages.scss';
@@ -18,7 +18,7 @@ export const Profile = () => {
 
   useEffect(() => {
     axios
-      .get('/account', { headers })
+      .get('/account')
       .then(result => {
         setInfo(result.data);
         setAvatarUrl(result.data.avatarUrl);
@@ -40,7 +40,7 @@ export const Profile = () => {
     values['avatarUrl'] = avatarUrl;
 
     axios
-      .patch('/account', values, { headers })
+      .patch('/account', values)
       .then(() => {
         alert('Profile successfully updated');
       })

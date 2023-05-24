@@ -1,9 +1,5 @@
 import axios from './axios';
 
-export const headers = {
-  'Authorization': `Bearer ${localStorage.getItem('token')}`
-};
-
 export const getAge = (dateOfBirth) => {
   const today = new Date();
   const birthDate = new Date(dateOfBirth);

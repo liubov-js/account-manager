@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken';
+import { config } from '../config.js';
 
 export default (req, res, next) => {
   const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
 
   if (token) {
     try {
-      const decoded = jwt.verify(token, 'secret123');
+      const decoded = jwt.verify(token, config.secret);
 
       res.accountId = decoded._id;
       next();
