@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import AccountModel from '../models/Account.js';
+import { config } from '../config.js';
 
 export default async (req, res) => {
   try {
@@ -18,20 +19,20 @@ export default async (req, res) => {
       avatarUrl: req.body.avatarUrl,
     });
 
-    const user = await doc.save();
+    const account = await doc.save();
 
     const token = jwt.sign({
-      _id: user._id,
-    }, 'secret123', { expiresIn: '30d' });
+      _id: account._id,
+    }, config.secret, { expiresIn: '30d' });
 
-    const { passwordHash, ...userData } = user._doc;
+    const { passwordHash, ...accountData } = account._doc;
 
-    res.json({ ...userData, token });
+    res.json({ ...accountData, token });
   } catch (err) {
     console.log(err);
 
     res.status(500).json({
-      message: 'Не удалось зарегистрироваться',
+      message: 'Failed to register',
     });
   }
 };

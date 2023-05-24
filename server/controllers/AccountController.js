@@ -2,9 +2,9 @@ import AccountModel from '../models/Account.js';
 
 export const getAll = async (req, res) => {
   try {
-    const people = await AccountModel.find();
+    const accounts = await AccountModel.find();
 
-    res.json(people.filter((person) => person._id.toString() !== res.userId));
+    res.json(accounts.filter((account) => account._id.toString() !== res.accountId));
   } catch (err) {
     console.log(err);
 

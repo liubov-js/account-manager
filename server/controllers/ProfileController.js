@@ -2,17 +2,17 @@ import AccountModel from '../models/Account.js';
 
 export const getMe = async (req, res) => {
   try {
-    const user = await AccountModel.findOne({ _id: res.userId });
+    const account = await AccountModel.findOne({ _id: res.accountId });
 
-    if (!user) {
+    if (!account) {
       return res.status(404).json({
-        message: 'User is not found',
+        message: 'Account not found',
       });
     }
 
-    const { passwordHash, ...userData } = user._doc;
+    const { passwordHash, ...accountData } = account._doc;
 
-    res.json(userData);
+    res.json(accountData);
   } catch (err) {
     console.log(err);
 
@@ -24,10 +24,8 @@ export const getMe = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
-    const user = await AccountModel.findOne({ _id: res.userId });
-
     await AccountModel.updateOne({
-      _id: user,
+      _id: res.accountId,
     }, {
       fullName: req.body.fullName,
       password: req.body.password,

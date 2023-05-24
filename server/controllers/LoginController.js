@@ -2,37 +2,45 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import AccountModel from '../models/Account.js';
+import { config } from '../config.js';
 
 export default async (req, res) => {
   try {
-    const user = await AccountModel.findOne({ email: req.body.email });
+    const account = await AccountModel.findOne({ email: req.body.email });
 
-    if (!user) {
+    if (!account) {
       return res.status(404).json({
-        message: 'Пользователь не найден', // Неверный логин или пароль
+        message: 'Wrong email or password',
       });
     }
 
-    const isValidPass = await bcrypt.compare(req.body.password, user._doc.passwordHash);
+    const isValidPass = await bcrypt.compare(
+      req.body.password,
+      account._doc.passwordHash,
+    );
 
     if (!isValidPass) {
       return res.status(400).json({
-        message: 'Неверный логин или пароль',
+        message: 'Wrong email or password',
       });
     }
+   
+    const token = jwt.sign(
+      {
+        _id: account._id,
+      },
+      config.secret,
+      { expiresIn: '30d' },
+    );
 
-    const token = jwt.sign({
-      _id: user._id,
-    }, 'secret123', { expiresIn: '30d' });
+    const { passwordHash, ...accountData } = account._doc;
 
-    const { passwordHash, ...userData } = user._doc;
-
-    res.json({ ...userData, token });
+    res.json({ ...accountData, token });
   } catch (err) {
     console.log(err);
 
     res.status(500).json({
-      message: 'Не удалось авторизоваться',
+      message: 'Failed to login',
     });
   }
 };
