@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import multer from 'multer';
+import sharp from 'sharp';
 
 import { registerValidator, loginValidator, updateValidator } from './validations.js';
 
@@ -42,9 +43,22 @@ app.use('/uploads', express.static('uploads'));
 app.post('/auth/login', loginValidator, handleValidationErrors, LoginController);
 app.post('/auth/register', registerValidator, handleValidationErrors, RegisterController);
 
-app.post('/upload', upload.single('image'), (req, res) => {
+app.post('/upload', upload.single('image'), async (req, res) => {
+  const fileName = req.file.originalname;
+
+  try {
+    await sharp(`./uploads/${fileName}`)
+      .resize({
+        width: 100,
+        height: 100,
+      })
+      .toFile(`./uploads/avatars/${fileName}`);
+  } catch (error) {
+    console.log(error);
+  }
+
   res.json({
-    url: `/uploads/${req.file.originalname}`,
+    url: `/uploads/avatars/${fileName}`,
   });
 });
 
